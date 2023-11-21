@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace HallRentalModels.Dtos
 {
-    internal class BookingDto
+    public class BookingDto
     {
+        public int BookingID { get; set; }
+        public int CustomerID { get; set; }
+        public int HallID { get; set; }
+        public DateTime BookingDate { get; set; }
+        public DateTime RentalDate { get; set; }
+        public int Duration { get; set; }
+        public decimal TotalCost { get; set; }
     }
 }

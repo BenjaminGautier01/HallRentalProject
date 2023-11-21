@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HallRentalAPI.Data;
 using HallRentalAPI.Entities;
+using HallRentalModels.Dtos;    // Making sure to include the namespace where the DTOs are
 
 namespace HallRentalAPI.Controllers
 {
@@ -22,7 +23,7 @@ namespace HallRentalAPI.Controllers
 
         // GET: api/Bookings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetBookings()
+        public async Task<ActionResult<IEnumerable<BookingDto>>> GetBookings()
         {
             var bookings = await _context.Bookings.Include(b => b.Customer).Include(b => b.Hall).ToListAsync();
             return Ok(bookings);
@@ -30,28 +31,28 @@ namespace HallRentalAPI.Controllers
 
         // GET: api/Bookings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Booking>> GetBookingDetails(int? id)
+        public async Task<ActionResult<BookingDto>> GetBookingDetails(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var booking = await _context.Bookings
+            var bookingDtos = await _context.Bookings
                                         .Include(b => b.Customer)
                                         .Include(b => b.Hall)
                                         .FirstOrDefaultAsync(m => m.BookingID == id);
-            if (booking == null)
+            if (bookingDtos == null)
             {
                 return NotFound();
             }
 
-            return Ok(booking);
+            return Ok(bookingDtos);
         }
 
         // POST: api/Bookings
         [HttpPost]
-        public async Task<ActionResult<Booking>> CreateBooking([FromBody] Booking booking)
+        public async Task<ActionResult<BookingDto>> CreateBooking([FromBody] Booking booking)
         {
             if (ModelState.IsValid)
             {
