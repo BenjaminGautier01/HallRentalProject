@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HallRentalAPI.Data;
 using HallRentalAPI.Entities;
-using HallRentalModels.Dtos;    // Making sure to include the namespace where the DTOs are
+using HallRentalModels.Dtos;    // Using the DTOs
 
 namespace HallRentalAPI.Controllers
 {
@@ -25,8 +25,19 @@ namespace HallRentalAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookingDto>>> GetBookings()
         {
-            var bookings = await _context.Bookings.Include(b => b.Customer).Include(b => b.Hall).ToListAsync();
-            return Ok(bookings);
+            var bookings = await _context.Bookings.ToListAsync();
+            var bookingDtos = bookings.Select(b => new BookingDto
+            {
+                BookingID = b.BookingID,
+                CustomerID = b.CustomerID,
+                HallID = b.HallID,
+                BookingDate = b.BookingDate,
+                RentalDate = b.RentalDate,
+                Duration = b.Duration,
+                TotalCost = b.TotalCost
+            }).ToList();
+
+            return Ok(bookingDtos);
         }
 
         // GET: api/Bookings/5
@@ -38,27 +49,47 @@ namespace HallRentalAPI.Controllers
                 return NotFound();
             }
 
-            var bookingDtos = await _context.Bookings
-                                        .Include(b => b.Customer)
-                                        .Include(b => b.Hall)
-                                        .FirstOrDefaultAsync(m => m.BookingID == id);
-            if (bookingDtos == null)
+            var booking = await _context.Bookings.FirstOrDefaultAsync(m => m.BookingID == id);
+            if (booking == null)
             {
                 return NotFound();
             }
 
-            return Ok(bookingDtos);
+            var bookingDto = new BookingDto
+            {
+                BookingID = booking.BookingID,
+                CustomerID = booking.CustomerID,
+                HallID = booking.HallID,
+                BookingDate = booking.BookingDate,
+                RentalDate = booking.RentalDate,
+                Duration = booking.Duration,
+                TotalCost = booking.TotalCost
+            };
+
+            return Ok(bookingDto);
         }
 
         // POST: api/Bookings
         [HttpPost]
-        public async Task<ActionResult<BookingDto>> CreateBooking([FromBody] Booking booking)
+        public async Task<ActionResult<BookingDto>> CreateBooking([FromBody] BookingDto bookingDto)
         {
             if (ModelState.IsValid)
             {
+                var booking = new Booking
+                {
+                    // Map BookingDto to Booking entity
+                    CustomerID = bookingDto.CustomerID,
+                    HallID = bookingDto.HallID,
+                    BookingDate = bookingDto.BookingDate,
+                    RentalDate = bookingDto.RentalDate,
+                    Duration = bookingDto.Duration,
+                    TotalCost = bookingDto.TotalCost
+                };
+
                 _context.Bookings.Add(booking);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetBookingDetails), new { id = booking.BookingID }, booking);
+
+                return CreatedAtAction(nameof(GetBookingDetails), new { id = booking.BookingID }, bookingDto);
             }
 
             return BadRequest(ModelState);
@@ -66,12 +97,24 @@ namespace HallRentalAPI.Controllers
 
         // PUT: api/Bookings/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditBooking(int id, [FromBody] Booking booking)
+        public async Task<IActionResult> EditBooking(int id, [FromBody] BookingDto bookingDto)
         {
-            if (id != booking.BookingID)
+            if (id != bookingDto.BookingID)
             {
                 return BadRequest();
             }
+
+            var booking = new Booking
+            {
+                // Map BookingDto to Booking entity
+                BookingID = bookingDto.BookingID,
+                CustomerID = bookingDto.CustomerID,
+                HallID = bookingDto.HallID,
+                BookingDate = bookingDto.BookingDate,
+                RentalDate = bookingDto.RentalDate,
+                Duration = bookingDto.Duration,
+                TotalCost = bookingDto.TotalCost
+            };
 
             _context.Entry(booking).State = EntityState.Modified;
 
@@ -116,3 +159,4 @@ namespace HallRentalAPI.Controllers
         }
     }
 }
+

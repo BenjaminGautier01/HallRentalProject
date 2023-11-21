@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HallRentalAPI\HallRentalAPI.csproj" />
+    <ProjectReference Include="..\HallRentalModels\HallRentalModels.csproj" />
   </ItemGroup>
 
 </Project>

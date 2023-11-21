@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
+using HallRentalModels.Dtos;    // Making sure to include the namespace where the DTOs are
 
 namespace HallRentalClient.Services
 {
@@ -16,13 +17,7 @@ namespace HallRentalClient.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Customer>> GetCustomersAsync()
-        {
-            var response = await _httpClient.GetAsync("api/customers");
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadFromJsonAsync<List<Customer>>();
+       
         }
     }
-
 }
