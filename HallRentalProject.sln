@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HallRentalAPI", "HallRental
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HallRentalClient", "HallRentalClient\HallRentalClient.csproj", "{0660FD1F-F631-4B3D-887B-7409D4ED9C4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HallRentalModels", "HallRentalModels\HallRentalModels.csproj", "{5BE7A086-6121-4F65-A626-B248E7BA534D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0660FD1F-F631-4B3D-887B-7409D4ED9C4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0660FD1F-F631-4B3D-887B-7409D4ED9C4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0660FD1F-F631-4B3D-887B-7409D4ED9C4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE7A086-6121-4F65-A626-B248E7BA534D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE7A086-6121-4F65-A626-B248E7BA534D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE7A086-6121-4F65-A626-B248E7BA534D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE7A086-6121-4F65-A626-B248E7BA534D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
