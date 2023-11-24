@@ -22,8 +22,34 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    API_Debug_Interface();
+}
+
+void API_Debug_Interface()
+{
+    Console.Write("\nEnable API debug Swagger interface ( [y] for yes; [n] for no; ): ");
+
+    string? debug_interface = Console.ReadLine();
+    debug_interface = debug_interface == null ? "n" : debug_interface;
+
+    Console.Write("\n\n");
+
+    if (debug_interface.ToLower() == "y")
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+    else if(debug_interface.ToLower() == "n")
+    {
+
+    }
+    else
+    {
+        Console.Clear();
+        API_Debug_Interface();
+    }
+
+    Console.Clear();
 }
 
 app.UseHttpsRedirection();
