@@ -1,4 +1,4 @@
-namespace HallRentalAPI
+namespace Temp.Data
 {
     public class WeatherForecast
     {
